@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cp name-tmpl.json ./name/$1.json
+echo "DONE"

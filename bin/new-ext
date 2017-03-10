@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+cp ext-tmpl.json ./ext/$1.json
+echo "DONE"
