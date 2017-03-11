@@ -3,5 +3,7 @@
     "description": "",
     "siblingDirs": [""],
     "siblingFiles": [""],
-    "applications": []
+    "applications": [],
+		"maxSizeKB": 0,
+		"minSizeKB": 0
 }

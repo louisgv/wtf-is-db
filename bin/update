@@ -3,24 +3,52 @@
 const path = require('path');
 const fs = require('fs');
 
-const extTmpl = require('./ext-tmpl.json');
-const nameTmpl = require('./name-tmpl.json');
+const extPath = path.resolve('./ext');
+const namePath = path.resolve('./name');
 
-function readdir(path) {
-	return new Promise((resolve, reject) => {
-		fs.readdir(path, (err, files) => {
-			if (err) {
-				return reject({err});
+const hardMode = process.argv[2] === 'hard';
+
+update(extPath);
+update(namePath);
+
+function generateOutput(theFilePath, theTmpl) {
+	const theFile = require(theFilePath);
+
+	const newFile = Object.assign({}, theTmpl);
+
+	// If hardmode, use the fresh newFile
+	if (hardMode) {
+		for (let key in newFile) {
+			if (theFile.hasOwnProperty(key)) {
+				newFile[key] = theFile[key];
 			}
-			resolve(files);
-		})
-	});
+		}
+		return newFile;
+	}
+
+	return Object.assign(theTmpl, theFile);
 }
 
 // For each key in template
 // Spawn a new object, and assign value from the appropriate key
-const extTmplCopy = {
-	...extTmpl
-};
+function update(thePath) {
+	const theTmpl = require(`${thePath}-tmpl.json`);
 
-console.log("HELLO");
+	fs.readdir(thePath, (err, files) => {
+		if (err) {
+			return console.error(err);
+		}
+		files.forEach((file) => {
+			const theFilePath = `${thePath}/${file}`;
+
+			const output = generateOutput(theFilePath, theTmpl);
+
+			fs.writeFile(theFilePath, JSON.stringify(output, null, 4), (err) => {
+				if (err) {
+					throw err;
+				}
+				console.log(`> UPDATED ${theFilePath}`);
+			});
+		})
+	})
+}

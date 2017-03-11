@@ -1,8 +1,13 @@
 {
-    "executable": false,
     "usage": "",
     "description": "",
-    "siblingDirs": [""],
-    "siblingFiles": [""],
-    "applications": []
+    "siblingDirs": [
+        ""
+    ],
+    "siblingFiles": [
+        ""
+    ],
+    "applications": [],
+    "maxSizeKB": 0,
+    "minSizeKB": 0
 }
