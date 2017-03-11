@@ -1,1 +1,26 @@
 #!/usr/bin/env node
+
+const path = require('path');
+const fs = require('fs');
+
+const extTmpl = require('./ext-tmpl.json');
+const nameTmpl = require('./name-tmpl.json');
+
+function readdir(path) {
+	return new Promise((resolve, reject) => {
+		fs.readdir(path, (err, files) => {
+			if (err) {
+				return reject({err});
+			}
+			resolve(files);
+		})
+	});
+}
+
+// For each key in template
+// Spawn a new object, and assign value from the appropriate key
+const extTmplCopy = {
+	...extTmpl
+};
+
+console.log("HELLO");
