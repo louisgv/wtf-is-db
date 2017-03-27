@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+const path = require('path');
+const fs = require('fs');
+
+const spawn = require('child_process').spawn;
+
+const extPath = path.resolve('./ext');
+const namePath = path.resolve('./name');
+const paths = [extPath, namePath];
+
+console.log('\033c')
+console.log("---------WATCH INITIALIZED---------");
+
+let active = true;
+
+for (let i = 0; i < paths.length; i++) {
+	fs.watch(paths[i], (eventType, filename) => {
+		if (eventType === 'change') {
+			if (active) {
+				const filecmd = filename.slice(0, -5); // remove .json
+				console.log('\033c')
+				console.log(`FILE CHANGED: ${filecmd}`);
+
+				const wtfdis = spawn('wtf', ['dis', filecmd]);
+
+				wtfdis.stdout.on('data', (data) => {
+				  console.log(`${data}`);
+				});
+			}
+			toggleActive();
+		}
+	});
+}
+
+function toggleActive() {
+	active = !active;
+}

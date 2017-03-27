@@ -2,10 +2,10 @@
     "usage": "",
     "description": "",
     "siblingDirs": [
-        ""
+        "node_modules"
     ],
     "siblingFiles": [
-        ""
+        "package.json"
     ],
     "applications": [],
     "maxSizeKB": 0,
